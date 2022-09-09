@@ -15,8 +15,12 @@ using namespace std;
 class node
 {
 public:
-    node()
+
+    node(){};
+    node(int v )
     {
+          data =v;
+          next=NULL;
     }
     int data;
     node *next;
@@ -44,7 +48,6 @@ public:
     void concatenate(sll &ob);
     void operator+(sll &ob);
     void reverse();
-
 };
 
 void sll::concatenate(sll &ob)
@@ -88,6 +91,7 @@ void sll::reverse()
 }
 
 // feedback for element  being not  present
+// have to return a pointer to the element not its position
 int *sll::search(int e)
 {
     temp = first;
@@ -115,6 +119,7 @@ int sll::count()
 
 void sll::display()
 {
+    cout << endl;
     node *temp = first;
     if (first == NULL)
         cout << "Empty list. Nothing to show :(" << endl;
@@ -124,15 +129,15 @@ void sll::display()
         cout << temp->data << "->";
         temp = temp->next;
     }
-    cout << endl;
+    cout << "NULL" << endl;
 }
 
 void sll::add_to_tail(int v)
 {
 
-    temp = new node();
-    temp->data = v;
-    temp->next = NULL;
+    temp = new node(v);
+    // temp->data = v;
+    // temp->next = NULL;
     if (first == NULL)
     {
         first = last = temp;
@@ -147,9 +152,9 @@ void sll::add_to_tail(int v)
 
 void sll::add_to_head(int v)
 {
-    temp = new node();
-    temp->data = v;
-    temp->next = NULL;
+    temp = new node(v);
+    // temp->data = v;
+    // temp->next = NULL;
     if (first == NULL)
     {
         first = last = temp;
@@ -235,10 +240,10 @@ void sll::del_from_loc(int i)
 void sll::add_at_loc(int i, int e)
 {
     // i is position
-    // add an element agter the ith position
-    temp = new node();
-    temp->data = e;
-    temp->next = NULL;
+    // add an element after the ith position
+    temp = new node(e);
+    // temp->data = e;
+    // temp->next = NULL;
     iter = first;
     if (i == 1)
         this->add_to_head(e);
@@ -263,22 +268,39 @@ void sll::add_at_loc(int i, int e)
     }
 }
 
+void menu()
+{
+    cout << "----------------*****************--------------------------------------" << endl;
+    cout << "0.Exit" << endl;
+    cout << "1.Insert an element  at the beginning" << endl;
+    cout << "2.Insert an element at the end" << endl;
+    cout << "3.Insert an element at i th  position" << endl;
+    cout << "4.Delete  an element from the beginning" << endl;
+    cout << "5.Delete an element from the end" << endl;
+    cout << "6.Delete an element from  i th  position" << endl;
+    cout << "7.Search for an element : pointer to the element is returned" << endl;
+    cout << "8.Concatenate two singly linked lists , also overload +" << endl;
+    cout << "9.Reverse" << endl;
+    cout << "--------------------****************-------------------------------------" << endl;
+    cout << "Enter your choice :" << endl;
+}
+
 int main()
 {
     sll l1, l2;
-    l1.add_to_tail(10);
-    l1.add_to_tail(30);
-    l1.add_to_tail(50);
-    l1.display();
+    // l1.add_to_tail(10);
+    // l1.add_to_tail(30);
+    // l1.add_to_tail(50);
+    // l1.display();
 
-    l2.add_to_tail(1);
-    l2.add_to_tail(3);
-    l2.add_to_tail(5);
-    l2.display();
-    l1+l2;
-    l1.concatenate(l2);
-    //l1.display();
-    //l2.display();
+    // l2.add_to_tail(1);
+    // l2.add_to_tail(3);
+    // l2.add_to_tail(5);
+    // l2.display();
+    // l1+l2;
+    // l1.concatenate(l2);
+    // l1.display();
+    // l2.display();
     // list.del_from_loc(3); // i, e
     // list.del_from_tail();
     // list.del_from_head();
@@ -287,6 +309,68 @@ int main()
     // list.reverse();
 
     int ch;
+    int x;
+    int i;
+    do
+    {
+        menu();
+        cin >> ch;
+        switch (ch)
+        {
+        case 0:
+            cout << "Exiting :)...." << endl;
+            break;
 
+        case 1:
+            cout << "Enter the element :";
+            cin >> x;
+            l1.add_to_head(x);
+            l1.display();
+            break;
+
+        case 2:
+            cout << "Enter the element :";
+            cin >> x;
+            l1.add_to_tail(x);
+            l1.display();
+            break;
+
+        case 3:
+            cout << "Enter the element :";
+            cin >> x;
+            cout << "Enter the poistion to be inserted at :";
+            cin >> i;
+            l1.add_at_loc(i, x);
+            l1.display();
+            break;
+
+        case 4:
+            l1.del_from_head();
+            l1.display();
+            break;
+
+        case 5:
+            l1.del_from_tail();
+            l1.display();
+            break;
+
+        case 6:
+            cout << "Enter the poistion to be deleted from :";
+            cin >> i;
+            l1.del_from_loc(i);
+            l1.display();
+            break;
+
+        case 9:
+            l1.reverse();
+            l1.display();
+            break;
+
+        default:
+            cout << "Invalid choice" << endl;
+            break;
+        }
+
+    } while (ch != 0);
     return 0;
 }
