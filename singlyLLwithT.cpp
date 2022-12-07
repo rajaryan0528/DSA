@@ -11,75 +11,78 @@
 */
 #include <iostream>
 using namespace std;
-
-class node
+#include <string>
+template <class T> class node
 {
 public:
-    node(){};
-    node(int v)
-    {
-        data = v;
-        next = NULL;
-    }
-
-    ~node(){
-        if (this->next !=NULL)
-        {
-            delete next;
-            this->next ==NULL;
-        }
-    }
-    int data;
+    T data;
     node *next;
+    node(){};
+    node(T v )
+    {
+          data =v;
+          next=NULL;
+    }
+    
 };
 
-class sll
+template <class T> class sll
 {
-    node *first = NULL;
-    node *temp = NULL;
-    node *last = NULL;
-    node *iter = NULL;
+    node *first;
+    node *temp;
+    node *last;
+    node *iter;
 
 public:
-    sll(){};
+    sll(){
+         *first = NULL;
+         *temp = NULL;
+         *last = NULL;
+         *iter = NULL;
+    };
+
     ~sll(){};
     void display();
     int count();
-    void add_to_head(int v);
-    void add_to_tail(int);
-    void add_at_loc(int i, int e);
+    void add_to_head(T v);
+    void add_to_tail(T );
+    void add_at_loc(T i, T e);
     void del_from_head();
     void del_from_tail();
     void del_from_loc(int i);
-    int search(int);
+    int *search(T);
     void concatenate(sll &ob);
     void operator+(sll &ob);
     void reverse();
 };
 
-void sll::concatenate(sll &ob)
-{
-    if (this->first && ob.first == NULL)
-        cout << "Both the lists are empty :)" << endl;
+// void sll::concatenate(sll &ob)
+// {
+//     if (this->first == NULL && ob.first == NULL)
+//         cout << "Both the lists are empty :)" << endl;
 
-    else
-    {
-        temp = ob.first;
-        while (temp != NULL)
-        {
-            this->add_to_tail(temp->data);
-            temp=temp->next;
-        }
-    }
-}
+//     else if (this->first == NULL)
+//         ob.display();
 
-void sll::operator+(sll &ob)
-{
-    this->concatenate(ob);
-    return;
-}
+//     else if (ob.first == NULL)
+//         this->display();
+//     else
+//     {
+//         last->next = ob.first; // last node of the first list points to first nodd of the second list
+//         ob.first = NULL;
+//         ob.last = NULL;
+//         this->display();
+//     }
+//     return;
+// }
 
-void sll::reverse()
+// template <class T> void sll::operator+(sll &ob)
+// {
+//     this->concatenate(ob);
+//     return;
+// }
+
+template <class T> void sll<T>::reverse()
 {
     node *before = NULL, *after = NULL;
     temp = first; // current
@@ -93,21 +96,21 @@ void sll::reverse()
     first = before; // important
 }
 
+// feedback for element  being not  present
 // have to return a pointer to the element not its position
-int sll::search(int e)
-{
-    temp = first;
-    int count = 1;
-    while (temp->data != e)
-    {
-        temp = temp->next;
-        count += 1;
-    }
-    cout<<temp<<endl;
-    return count;
-}
+// template <class T>  *sll::search(T e)
+// {
+//     temp = first;
+//     int count = 1;
+//     while (temp->data != e)
+//     {
+//         temp = temp->next;
+//         count += 1;
+//     }
+//     cout << "Element present at position :" << count << endl;
+// }
 
-int sll::count()
+template <class T> int sll<T>::count()
 {
     int count = 0;
     node *temp = first;
@@ -120,7 +123,7 @@ int sll::count()
     return count;
 }
 
-void sll::display()
+template <class T> void sll<T>::display()
 {
     cout << endl;
     node *temp = first;
@@ -135,10 +138,12 @@ void sll::display()
     cout << "NULL" << endl;
 }
 
-void sll::add_to_tail(int v)
+template <class T> void sll<T>::add_to_tail(T v)
 {
 
     temp = new node(v);
+    // temp->data = v;
+    // temp->next = NULL;
     if (first == NULL)
     {
         first = last = temp;
@@ -151,7 +156,7 @@ void sll::add_to_tail(int v)
     }
 }
 
-void sll::add_to_head(int v)
+template <class T> void sll<T>::add_to_head(T v)
 {
     temp = new node(v);
     // temp->data = v;
@@ -168,7 +173,7 @@ void sll::add_to_head(int v)
     }
 }
 
-void sll::del_from_head()
+template <class T> void sll<T>::del_from_head()
 {
     temp = new node();
     if (first == NULL)
@@ -184,7 +189,7 @@ void sll::del_from_head()
     }
 }
 
-void sll::del_from_tail()
+template <class T> void sll<T>::del_from_tail()
 {
     temp = new node();
     node *current = NULL;
@@ -210,7 +215,7 @@ void sll::del_from_tail()
     }
 }
 
-void sll::del_from_loc(int i)
+template <class T> void sll<T>::del_from_loc(int i)
 {
     // i is position
     // delete the  element at the i th position
@@ -238,7 +243,7 @@ void sll::del_from_loc(int i)
     }
 }
 
-void sll::add_at_loc(int i, int e)
+template <class T> void sll<T>::add_at_loc(T i, T e)
 {
     // i is position
     // add an element after the ith position
@@ -256,20 +261,32 @@ void sll::add_at_loc(int i, int e)
 
     else
     {
-        int count = 0;
+        int count = 1;
         iter = first;
-        while (count < (i-1))
+        while (count < i)
         {
 
-            iter = iter->next;    //node at i-1
+            iter = iter->next;
             count += 1;
         }
         temp->next = iter->next;
-        iter->next= temp;
+        iter->next = temp;
     }
 }
 
-void menu()
+
+void dataTypeChoice()
+{
+    cout << "----------------*****************--------------------------------------" << endl;
+    cout << "Please select your preferred data type from the list" << endl;
+    cout << "1.Int" << endl;
+    cout << "2.Char" << endl;
+    cout << "3.Float" << endl;
+    cout << "--------------------****************-------------------------------------" << endl;
+    cout << "Enter your choice :" << endl;
+}
+
+void listOps()
 {
     cout << "----------------*****************--------------------------------------" << endl;
     cout << "0.Exit" << endl;
@@ -282,24 +299,58 @@ void menu()
     cout << "7.Search for an element : pointer to the element is returned" << endl;
     cout << "8.Concatenate two singly linked lists , also overload +" << endl;
     cout << "9.Reverse" << endl;
-    cout << "10.Display"<<endl;
     cout << "--------------------****************-------------------------------------" << endl;
     cout << "Enter your choice :" << endl;
 }
 
 int main()
 {
-    sll l1, l2,l3;
-    int ch;
-    int x;
-    int i;
-    l2.add_to_tail(3);
-    l2.add_to_tail(6);
-    l2.add_to_tail(7);
+
+    int dataT, ch, i;
+    string type=" ";
+
+    dataTypeChoice();
+    cin>>dataT;
+    switch(dataT)
+    {
+        case 1:
+          type="int";
+          break;
+
+        case 2:
+          type="char";
+          break;
+
+        case 3:
+           type="double";
+           break;
+
+        default:
+           type="int";
+           break;
+    }
+
+    if(type=="int")
+    {
+      sll<int> l1, l2;
+      int x;
+    }
+
+    if (type == "char")
+    {
+        sll<char> l1, l2;
+        char x;
+    }
+
+    if (type == "double")
+    {
+        sll<double> l1, l2;
+        double x;
+    }
 
     do
     {
-        menu();
+        listOps();
         cin >> ch;
         switch (ch)
         {
@@ -311,12 +362,14 @@ int main()
             cout << "Enter the element :";
             cin >> x;
             l1.add_to_head(x);
+            l1.display();
             break;
 
         case 2:
             cout << "Enter the element :";
             cin >> x;
             l1.add_to_tail(x);
+            l1.display();
             break;
 
         case 3:
@@ -325,42 +378,30 @@ int main()
             cout << "Enter the poistion to be inserted at :";
             cin >> i;
             l1.add_at_loc(i, x);
+            l1.display();
             break;
 
         case 4:
             l1.del_from_head();
+            l1.display();
             break;
 
         case 5:
             l1.del_from_tail();
+            l1.display();
             break;
 
         case 6:
             cout << "Enter the poistion to be deleted from :";
             cin >> i;
             l1.del_from_loc(i);
-            break;
-
-        case 7:
-            cout << "Enter the element to be search for:";
-            cin >> x;
-            cout<<"Element present at :"<<l1.search(x)<<endl;
-            break;
-
-        case 8:
-            cout<<"Concatenating two lists"<<endl;
-            l3+l1;
-            l3+l2;
-            l3.display();
+            l1.display();
             break;
 
         case 9:
             l1.reverse();
+            l1.display();
             break;
-
-        case 10:
-           l1.display();
-           break;
 
         default:
             cout << "Invalid choice" << endl;
