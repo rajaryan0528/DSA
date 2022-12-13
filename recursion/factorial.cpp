@@ -1,0 +1,1 @@
+// WAP to calculate factorial and to compute the factors of a given no. (i)using recursion, (ii)using iteration

@@ -60,6 +60,7 @@ public:
 
 void cll::display()
 {
+    
     temp=last;
     do{
         cout << temp->data << "->";
@@ -71,7 +72,21 @@ void cll::display()
 
 int cll::count()
 {
-    return 0;
+
+    int count=0;
+    if (last->next = last)
+    {
+         count =1;
+    }
+    else{
+    temp = last;
+    do
+    {
+        temp = temp->next;
+        count++;
+    } while (last != temp);
+    }
+    return count;
 }
 
 void cll::add_to_head(int v)
@@ -143,7 +158,13 @@ void cll::del_from_head()
     {
         cout << "List is empty. Cannot delete:)" << endl;
     }
-
+    
+    // else if(last->next=last)    //only one node 
+    // {
+    //     last->next=NULL;
+    //     delete last;
+    // }
+    
     else
     {
         temp =last->next;
@@ -158,6 +179,7 @@ void cll::del_from_tail()
     temp = new node();
     node *current = NULL;
 
+
     if (last == NULL)
     {
         cout << "List is empty. Cannot delete:)" << endl;
@@ -166,21 +188,49 @@ void cll::del_from_tail()
     else
     {
 
-        temp =last;
-        while (temp->next != NULL)
+        temp =last->next;
+        do
         {
             current = temp; // storing the previous node
             temp = temp->next;
-        }
+        } while (last != temp);
+           
 
         // temp is storing the last node here
-        current->next = NULL; // becomes the last node
+        current->next =temp->next; // becomes the last node
+        last=current;
+        temp->next=NULL;
         delete temp;
     }
 }
 
 void cll::del_from_loc(int i)
 {
+    // i is position
+    // delete the  element at the i th position
+    temp = new node();
+    iter =last;
+    if (i == 1)
+        this->del_from_head();
+
+    else if (i == (this->count()))
+        this->del_from_tail();
+
+    else
+    {
+        int count = 0;
+        iter = last->next;  //from first position 
+        while (count <(i-1))
+        {
+          
+            temp = iter; // previous node
+            iter = iter->next;
+            count += 1;
+        }   
+        temp->next = iter->next; // point to the address of the node after the deleted node
+        iter->next=NULL;
+        delete iter;
+    }
 }
 
 int cll::search(int)
@@ -205,10 +255,9 @@ int main()
 {
     cll l;
     l.add_to_tail(2);
-    l.add_to_tail(9);
-    l.add_to_tail(5);
-    l.add_to_tail(6);
+    l.add_to_tail(3);
     l.del_from_head();
     l.display();
+
     return 0;
 }
