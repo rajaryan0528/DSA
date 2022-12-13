@@ -106,6 +106,21 @@ void dll::operator+(dll &ob)
 
 void dll::reverse()
 {
+    if(last == NULL)
+    {
+        cout << "empty list";
+    }
+    else
+    {  
+        iter=last;
+        while (iter->prev != NULL)
+        {  
+            cout<<iter->data<<"->";
+            iter=iter->prev;
+        }
+        cout<<"NULL"<<endl;
+    
+    }
 }
 
 void dll::display()
@@ -253,6 +268,7 @@ int main()
     l.add_to_tail(5);
     l.add_to_tail(8);
     l.add_to_tail(6);
+    l.reverse();
     l.del_from_loc(1);
     l.del_from_loc(2);
     l.display();

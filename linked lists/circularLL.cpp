@@ -248,7 +248,7 @@ void cll::operator+(cll &ob)
 
 void cll::reverse()
 {
-    //prints the list in the reverse order
+    
 }
 
 int main()
@@ -256,7 +256,7 @@ int main()
     cll l;
     l.add_to_tail(2);
     l.add_to_tail(3);
-    l.del_from_head();
+    l.add_to_tail(4);
     l.display();
 
     return 0;
