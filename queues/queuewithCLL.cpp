@@ -1,4 +1,4 @@
-/* -->Implementing a stack using linked representation
+/* -->Implementing a queue using linked representation
    -->Circular  Linked List was used
 */
 #include <iostream>

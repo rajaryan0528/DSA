@@ -1,32 +1,30 @@
 /* 
-Implement Queue  using Circular Array representation
+  -->Implement Queue  using Circular Array representation
+  -->% operator reresents the number of cycles traversed 
 */
-
-/* 
-int position;   //the position you want to get
-float out = arr1[position % 10];
-*/
-// An array is called circular if we consider the first element as next of the last element.
-/* This queue will act as a circular queue*/
+/*
+ -->An array is called circular if we consider the first element as next of the last element.
+ -->This queue will act as a circular queue
+ */
 
 #include <iostream>
 using namespace std;
-#define QUEUESIZE 100
-
 class queue
 {
 private:
-    int rear = -1, front = -1;
-    int items[QUEUESIZE];
+    int rear,front,size;
+    int *items;
 
 public:
-    queue()
+    queue(int n)
     {
+        items=new int[n];
+        size=n;
         rear = -1;
         front = -1;
     };
     ~queue(){};
-    int dequeue();
+    void dequeue();
     void enqueue(int);
     void disp();
     bool isEmpty();
@@ -34,11 +32,11 @@ public:
 
 void queue::disp()
 {
-    if (this->isEmpty())
+    if (rear == -1 && front == -1)
     {
         cout << "Empty Queue" << endl;
     }
-    else
+    else if(front<=rear)
     {
         for (int i = front; i <= rear; i++)
         {
@@ -46,40 +44,48 @@ void queue::disp()
         }
         cout << endl;
     }
+
+    //we have  already traversed the queue once
+    else{
+        for (int i = front;i<=size-1 ; i++)
+        {
+            cout << items[i] << " ";
+        }
+
+        for(int j=0;j<=rear;j++)
+        {
+            cout <<items[j]<<" ";
+        }
+        cout<<endl;    
+    }
 }
 
-bool queue::isEmpty()
+void queue::dequeue()
 {
     if (rear == -1 && front == -1)
-        return true;
-
-    else
-        return false;
-}
-
-int queue::dequeue()
-{
-    if (this->isEmpty())
     {
-        cout << "Underflow.Queue is empty" << endl;
-        return 0;
+        cout << "Underflow" << endl;
+        return;
     }
-
-    else if (front > rear)
+    //single element
+    else if (front==rear)
     {
-        cout << "Queue is empty" << endl;
+        cout<<items[front]<<endl;
+        front=rear=-1;
     }
 
     else
     {
-        return items[front++];
+        cout<<items[front]<<endl;
+        front=(front+1)%size;
+
     }
 }
 
 void queue::enqueue(int e)
 {
-    if (rear >= QUEUESIZE - 1)
-        cout << "Overflow.Queue is full" << endl;
+    if ((rear+1%size)==front )
+        cout << "Overflow" << endl;
 
     else if (front == -1 && rear == -1)
     {
@@ -91,7 +97,8 @@ void queue::enqueue(int e)
     else
     {
 
-        items[++(rear)] = e;
+        rear=(rear+1)%size;
+        items[rear] = e;
         cout << e << " pushed into queue\n";
     }
 }
@@ -106,7 +113,10 @@ void menu()
 
 int main()
 {
-    queue q;
+    int n;
+    cout<<"Enter the queue size : ";
+    cin>>n;
+    queue q(n);
     int ch;
     do
     {
@@ -125,7 +135,7 @@ int main()
             break;
 
         case 2:
-            cout << q.dequeue() << " dequeued." << endl;
+            q.dequeue();
 
         case 3:
             q.disp();
@@ -135,13 +145,3 @@ int main()
 
     return 0;
 }
-
-// int main()
-// {
-//     char a[] = {'A', 'B', 'C', 'D', 'E', 'F'};
-//     int n = sizeof(a) / sizeof(a[0]);
-//     int ind=5;
-//     for (int i = ind; i < n + ind; i++)
-//         cout << a[(i % n)] << " ";
-//     return 0;
-// }
