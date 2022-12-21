@@ -1,59 +1,96 @@
 // WAP to implement Diagonal Matrix using one-dimensional array.
 #include <iostream>
 using namespace std;
-int main()
+
+#include <iostream>
+using namespace std;
+
+class diagonalMat
 {
-    // Enter a Diagonal Matrix
+    int n;
+    int *arr;
 
-    int m = 0, e = 0;
-    cout << "Enter the dimension of diagonal matrix : ";
-    cin >> m;
-    int **arr = new int *[m];
-    for (int i = 0; i < m; i++)
+public:
+    diagonalMat(int N)
     {
-        arr[i] = new int[m];
+        n = N;
+        arr = new int[N];
     }
+    ~diagonalMat(){ 
+        delete[] arr; 
+    }
+    void store(int i, int j, int x);
+    int retrive(int i, int j);
+    void show();
+};
 
-    for (int i = 0; i < m; i++)
+void diagonalMat::store(int i, int j, int x)
+{
+    if (i < 1 || j < 1 || i > n || j > n)
     {
-        for (int j = 0; j < m; j++)
-        {
+        cout << "Out of Bounds";
+        return;
+    }
+    else if (i == j)
+        arr[i] = x;
 
-            cout << "Enter the element : ";
-            cin >> e;
-            arr[i][j] = e;
+    else
+    {
+        if (x != 0)
+        {
+            cout << "x must be zero";
+            return;
         }
-        cout << "------------" << endl;
     }
+}
 
-    int i, j, trace[m];
-    for (i = 0; i < m; i++)
+int diagonalMat::retrive(int i, int j)
+{
+    if (i < 1 || j < 1 || i > n || j > n)
     {
-        trace[i] = arr[i][i]; // copy diagonal elements...
+        cout << "Out of Bounds"<< ' ';
+        return -1;
     }
-    cout << endl
-         << "Trace of the diagonal matrix is :" << endl;
-    cout << "[ ";
-    for (i = 0; i < m; i++)
+    else if (i == j)
+        return arr[i];
+    else
+        return 0;
+}
+
+void diagonalMat::show()
+{
+    for (int i = 1; i <= n; i++)
     {
-        cout << trace[i] << " ";
-    }
-    cout << "]" << endl;
-    cout << endl
-         << "Displaying the Original Matrix" << endl;
-    for (i = 0; i < m; i++)
-    {
-        for (j = 0; j < m; j++)
+        for (int j = 1; j <= n; j++)
         {
-            if (i == j)
-            {
-                cout << trace[i] << " ";
-            }
+            if (i != j)
+                cout << "0\t";
             else
-            {
-                cout << "0 ";
-            }
+                cout << arr[i] << "\t";
         }
         cout << endl;
     }
+}
+int main()
+{
+
+    int n;
+    cout << "Enter  the no. of rows : ";
+    cin >> n;
+
+    diagonalMat d1(n);
+    int i, j, y;
+    cout << "Enter the elements :\n";
+    for (i = 1, j = 1; i <= n, j <= n; i++, j++)     //1 based indexing
+    { 
+        cin >> y;
+        d1.store(i, j, y);
+    }
+    cout << "The diagonal matrix is :\n";
+    d1.show();
+    cout << "Enter the location of retrival :";
+    cin >> i >> j;
+    cout << "\nRetrieved value is : " << d1.retrive(i, j);
+
+    return 0;
 }
