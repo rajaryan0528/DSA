@@ -19,8 +19,32 @@ void bubbleSort(int *&a, int n)
         }
     }
 }
-void selectionSort(){}
-void insertionSort(){}
+
+void selectionSort(int *&a,int n){      //select the elemenand placed it at its correct position
+    int minIndx=0;
+    for(int i=0;i<n;i++)
+    {
+        minIndx=i;
+        for(int j=i+1;j<n;j++)
+        {
+            if(a[j]<a[minIndx])
+                minIndx=j;
+        }
+        swap(a[i],a[minIndx]);
+    }
+}
+
+void insertionSort(int *&a, int n) {     //take an element and put it at its right position in the sub array
+    for(int i=1;i<n-1;i++)
+    {
+        for(int j=i+1;j>0;j--)
+        {
+            if(a[j]<a[j-1])
+               swap(a[j],a[j-1]);
+        }
+    }
+}
+
 void display(int *&a, int n)
 {
     for (int i = 0; i < n; i++)
@@ -42,7 +66,7 @@ int main()
     {
         cin >> list[i];
     }
-    bubbleSort(list,n);
+    insertionSort(list,n);
     display(list, n);
     return 0;
 }
