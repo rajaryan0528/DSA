@@ -11,6 +11,7 @@ Write a program to implement Binary Search Tree which supports the following ope
 
 #include <iostream>
 #include <queue>
+#include <stack>
 using namespace std;
 
 class node
@@ -116,6 +117,91 @@ void preorder(node* root){
        preorder(root->left);
        preorder(root->right);
 }
+void iterativeInorder(node *root)
+{
+       stack<node *>s;
+       node *curr = root;
+
+       while (curr != NULL || s.empty() == false)
+       {
+          /* Reach the left most Node of the curr Node */
+          while (curr != NULL)
+          {
+              /* place pointer to a tree node on the stack before traversing the node's left subtree */
+                     s.push(curr);
+                     curr = curr->left;
+          }
+
+          /* Current must be NULL at this point */
+          curr = s.top();
+          s.pop();
+          cout << curr->data << " ";
+
+          /* we have visited the node and its left subtree.  Now, it's right subtree's turn */
+          curr = curr->right;
+       }
+}
+
+void iterativePostorder(node *root)
+{
+       if (root == NULL)
+          return;
+       stack<node*> s1, s2;
+
+       // push root to first stack
+       s1.push(root);
+       node *node;
+
+       // Run while first stack is not empty
+       while (!s1.empty())
+       {
+          // Pop an item from s1 and push it to s2
+          node = s1.top();
+          s1.pop();
+          s2.push(node);
+
+          // Push left and right children
+          // of removed item to s1
+          if (node->left)
+                     s1.push(node->left);
+          if (node->right)
+                     s1.push(node->right);
+       }
+
+       // Print all elements of second stack
+       while (!s2.empty())
+       {
+          node = s2.top();
+          s2.pop();
+          cout << node->data << " ";
+       }
+}
+void iterativePreorder(node *root)
+{
+       if (root == NULL)
+          return;
+       stack<node*> nodeStack;
+       nodeStack.push(root);
+
+       /* Pop all items one by one. Do following for every popped item
+          a) print it
+          b) push its right child
+          c) push its left child
+       Note that right child is pushed first so that left is processed first */
+       while (nodeStack.empty() == false)
+       {
+          // Pop the top item from stack and print it
+          node *node = nodeStack.top();
+          cout<<node->data<<" ";
+          nodeStack.pop();
+
+          // Push right and left children of the popped node to stack
+          if (node->right)
+                     nodeStack.push(node->right);
+          if (node->left)
+                     nodeStack.push(node->left);
+       }
+}
 node *minValue(node *root)
 {
        node *temp = root;
@@ -128,6 +214,7 @@ node *minValue(node *root)
 
 node* deletion(node* root,int val)
 {
+   
     if(root==NULL)
       return root;
     if(root->data==val)
@@ -212,9 +299,16 @@ int main()
        node *root = NULL;
        getData(root);
        inorder(root);
-       preorder(root);
-       postorder(root);
-       cout<<search(root,10);
-       deletion(root,10);
-       levelOrderTraversal(root);
+       cout << endl;
+       // iterativeInorder(root);
+       // cout << endl;
+       // preorder(root);
+       // cout<<endl;
+       // iterativePreorder(root);
+       // postorder(root);
+       // cout << endl;
+       // iterativePostorder(root);
+       //cout<<search(root,10);
+       deletion(root,12);
+       //levelOrderTraversal(root);
 }
